@@ -103,6 +103,17 @@ public class DiaPlayerLine : DiaMaster
         }
 
 
+        if (MakeHostile)
+        {
+            viewable_text += " [Attack]";
+        }
+        else if (Dest == null)
+        {
+            viewable_text += " [Leave Conversation]";
+        }
+
+
+
 
 
         if (textRef)

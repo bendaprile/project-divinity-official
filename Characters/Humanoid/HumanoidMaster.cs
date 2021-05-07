@@ -22,6 +22,7 @@ public class HumanoidMaster : MonoBehaviour
     private DiaRoot DR;
 
     private bool AnimationOverride = false;
+    private Vector3 StayLoc = new Vector3();
 
     public bool MovementLocked = false;
 
@@ -46,6 +47,13 @@ public class HumanoidMaster : MonoBehaviour
     private void Start()
     {
         ClassBasedStats();
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1f);
+        Set_ControlMode(Control_Mode);
     }
 
     public void SetupHumanoidStats(HumanoidCombatClass CombatClass_in)
@@ -68,6 +76,10 @@ public class HumanoidMaster : MonoBehaviour
                 Set_ControlMode(NPC_Control_Mode.NPC_control);
             }
         }
+        else if (Return_Control_Mode() == NPC_Control_Mode.Stay)
+        {
+            MoveToDest(StayLoc, false, 6f);
+        }
         else if(Return_Control_Mode() == NPC_Control_Mode.NPC_control)
         {
             
@@ -84,9 +96,13 @@ public class HumanoidMaster : MonoBehaviour
     public void Set_ControlMode(NPC_Control_Mode mode)
     {
         Control_Mode = mode;
+        if(mode == NPC_Control_Mode.Stay) //Do not put in control mode because this should happen only when being set
+        {
+            StayLoc = transform.position;
+        }
         Control_Mode_Change_Logic();
     }
-    
+
     public void SetupHumanoidItems(GameObject Weapon, (GameObject, GameObject, GameObject) Armor)
     {
         EWC.UpdateWeaponSlot(Weapon);

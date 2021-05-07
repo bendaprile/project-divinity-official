@@ -15,8 +15,6 @@ public class HumanoidMovementSounds : MonoBehaviour
     private Terrain currentTerrain;
 
     private float movementSpeed = 0f;
-    //private int collisionCount = 0;
-    //private float counter = 0f;
     private bool playSound = false;
 
     private int layerMask;
@@ -57,6 +55,7 @@ public class HumanoidMovementSounds : MonoBehaviour
             }
             else if (hit.transform.tag == "Terrain")
             {
+                //Debug.Log(hit.transform.gameObject.name);
                 int textureIndex = terrainDetector.GetDominantTextureIndexAt(transform.position);
 
                 switch (textureIndex)

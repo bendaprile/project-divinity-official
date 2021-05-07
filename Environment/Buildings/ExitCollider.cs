@@ -6,12 +6,24 @@ public class ExitCollider : MonoBehaviour
 {
 
     [SerializeField] private BuildingController buildingController = null;
+    [SerializeField] private bool decreaseFloor = false;
+    [SerializeField] private int floorNum = 0;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && other is CapsuleCollider)
+        if (!decreaseFloor)
         {
-            buildingController.ExitCollider();
+            if (other.tag == "Player" && other is CapsuleCollider)
+            {
+                buildingController.ExitCollider();
+            }
+        }
+        else
+        {
+            if (other.tag == "Player" && other is CapsuleCollider)
+            {
+                buildingController.DecreaseFloor(floorNum);
+            }
         }
     }
 }

@@ -14,6 +14,18 @@ public class Zone_Flags : MonoBehaviour
     {
         QH = FindObjectOfType<QuestsHolder>();
         Recursive_Flag_Add(Master_Flags);
+
+        /*
+        foreach (KeyValuePair<string, bool> kvp in Flag)
+        { 
+            Debug.Log(kvp.Key);
+        }
+        */
+
+        for (int i = 5; i < STARTUP_DECLARATIONS.FactionCount; ++i)
+        {
+            Assert.IsTrue(Flag.ContainsKey(STARTUP_DECLARATIONS.FactionsEnumReverse[i] + "Hostile"), "There needs to be a hostile flag for the new faction: " + STARTUP_DECLARATIONS.FactionsEnumReverse[i]);
+        }
     }
 
     protected void Recursive_Flag_Add(Transform PassThrough)
@@ -37,6 +49,7 @@ public class Zone_Flags : MonoBehaviour
 
     public void SetFlag(GameObject FlagRef) //I am just using the GameObject for its unique number, I dont actually store anything to it
     {
+        Debug.Log(FlagRef);
         World_Setup WS = FlagRef.GetComponent<World_Setup>();
         if (WS)
         {

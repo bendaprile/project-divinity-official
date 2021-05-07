@@ -17,7 +17,7 @@ public class QuestObjective : MonoBehaviour
 
 
     [Space(35)]
-    [SerializeField] protected GameObject Fail_Flag = null;
+    [SerializeField] protected List<GameObject> Any_Flag_Fail = new List<GameObject>();
     [SerializeField] protected bool Fail_On_Player_Death = false;
     [SerializeField] protected GameObject Set_Flag_On_Fail = null;
     [Space(35)]
@@ -89,6 +89,7 @@ public class QuestObjective : MonoBehaviour
 
     protected virtual void FailLogic()
     {
+        Debug.Log("Fail");
         if (Set_Flag_On_Fail)
         {
             questTemplate.Return_Zone_Flags().SetFlag(Set_Flag_On_Fail);
@@ -150,10 +151,15 @@ public class QuestObjective : MonoBehaviour
 
     public void FlagCheckObj()
     {
-        if (Fail_Flag && questTemplate.Return_Zone_Flags().CheckFlag(Fail_Flag.name))
+        foreach(GameObject Flag in Any_Flag_Fail)
         {
-            FailLogic();
+            if (questTemplate.Return_Zone_Flags().CheckFlag(Flag.name))
+            {
+                FailLogic();
+                break;
+            }
         }
+
 
         FlagCheckProperCompletion();
     }

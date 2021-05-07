@@ -53,12 +53,9 @@ public class DoorLightController : BuildingController
         {
             foreach (GameObject roof in roofs)
             {
-                foreach (Transform child in roof.transform)
+                foreach (MeshRenderer child in roof.GetComponentsInChildren<MeshRenderer>())
                 {
-                    if (child.GetComponent<MeshRenderer>())
-                    {
-                        child.GetComponent<MeshRenderer>().shadowCastingMode = turnOnRoof ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-                    }
+                    child.shadowCastingMode = turnOnRoof ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
                 }
             }
         }

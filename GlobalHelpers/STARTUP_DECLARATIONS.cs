@@ -67,7 +67,7 @@ public enum HumanoidLogicMode { none, Kiting, Kiting_reposition, Charge_in, Flee
 public enum HumanoidCombatClass { Classless, Sharpshooter, Generalist, Tank, Antagonist }
 public enum HumanoidWeaponExpertise { Novice, Adept, Commando }
 public enum HumanoidMovementType { Hindered, Average, Agile, inhuman }
-public enum NPC_Control_Mode { WalktoPlayer_dia, Scripted, NPC_control, Enemy_control }
+public enum NPC_Control_Mode { WalktoPlayer_dia, Stay, NPC_control, Enemy_control }
 
 public enum NPCActivityFlag { _NO_FLAG_, 
     City_ArenaSpectator, City_Bench,
@@ -83,7 +83,7 @@ public enum NPC_FactionsEnum
 
 public enum CustomReputation { PlayerEnemy, Standard, PlayerAlly }
 
-public enum FactionsEnum{ Neutral, Player, Rogue, Feral, AntiPlayer, B, Scavengers, Plantation, MidwayCityCivilian }
+public enum FactionsEnum{ Neutral, Player, Rogue, Feral, AntiPlayer, B, Scavengers, Plantation, MidwayCityCivilian, FacelessReapers, Ascended }
 public enum Zones { Apoc, Water, Snow, Jungle, City }
 public enum UI_Mode { Normal, PauseMenu, DiaMenu, LevelMenu, InteractiveMenu} //IF MODIFIED change "Check_if_Escapable" in UIController
 public enum SkillCheckStatus { NoCheck, Success, Failure }
@@ -91,11 +91,11 @@ public enum SkillCheckStatus { NoCheck, Success, Failure }
 public static class STARTUP_DECLARATIONS
 {
     public const int NPC_FactionsCount = 4;
-    public const int FactionCount = 9;
+    public const int FactionCount = 11;
     public const int AllyNumber = 1800;
     public const int EnemyNumber = 200;
-    public const int HumanoidDeathFactionChange = -200;
-    public const int HumanoidInjuryFactionChange = -20;
+    public const int HumanoidDeathFactionChange = -500;
+    public const int HumanoidInjuryFactionChange = -100;
 
     public const int Number_of_ExclusiveActivePerks = 4;
     public const int Number_of_Attributes = 12;
@@ -103,7 +103,7 @@ public static class STARTUP_DECLARATIONS
     public const int Number_of_CombatSkills = 4;
     public const float TIME_TO_DISPLAY_TOOLTIP = 0.1f;
 
-    public static string[] FactionsEnumReverse = new string[FactionCount] { "Neutral", "Ally", "Rogue", "Feral", "AntiPlayer", "B", "Scavengers", "Plantation", "Midway City Civilian" };
+    public static string[] FactionsEnumReverse = new string[FactionCount] { "Neutral", "Ally", "Rogue", "Feral", "AntiPlayer", "B", "Scavengers", "Plantation", "Midway City Civilian", "Faceless Reapers", "Ascended" };
 
     public static string[] NPC_FactionsEnumReverse = new string[NPC_FactionsCount] { "City Rich", "City Poor", "Farmer", "Scavengers" };
 
@@ -122,8 +122,8 @@ public static class STARTUP_DECLARATIONS
     public static string[] ArmorWeightEnumReverse = new string[3] { "Light", "Medium", "Heavy" };
     public static string[] ItemClassEnumReverse = new string[6] { "Damaged", "Flawed", "Common", "Rare", "Flawless", "Legendary" };
     public static string[] WeaponTypeEnumReverse = new string[3] { "Melee 1-handed", "Melee 2-handed", "Ranged"};
-    public static string[] DamageTypeEnumReverse = new string[3] { "True" , "Elemental", "Regular" };
-    public static string[] DamageSourceEnumReverse = new string[3] { "Lightning", "Projectile", "Lacerate" };
+    public static string[] DamageTypeEnumReverse = new string[3] { "True" , "Piercing", "Regular" };
+    public static string[] DamageSourceEnumReverse = new string[3] { "Biomechanical", "Projectile", "Lacerate" };
 
     public static Color32 goldColor = new Color32(255, 199, 0, 255);
     public static Color32 goldColorTransparent = new Color32(255, 199, 0, 100);

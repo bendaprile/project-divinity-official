@@ -302,7 +302,6 @@ public class HumanoidEnemy : EnemyTemplateMaster
 
     protected override void AIDisableFunc()
     {
-        Debug.Log("AIFUNC_over");
         HM.Attempt_CombatModeRevert();
 
         int final_rep_mod = Unregistered_Deaths_Witnessed * STARTUP_DECLARATIONS.HumanoidDeathFactionChange;
@@ -310,7 +309,10 @@ public class HumanoidEnemy : EnemyTemplateMaster
         {
             final_rep_mod += STARTUP_DECLARATIONS.HumanoidInjuryFactionChange;
         }
+
         FL.Modify_Reputation(factionEnum, FactionsEnum.Player, final_rep_mod);
+        final_rep_mod = 0;
+        CustomRep = CustomReputation.Standard;
     }
 
     private float CalculateMovingDirection()

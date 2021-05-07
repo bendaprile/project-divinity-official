@@ -40,13 +40,6 @@ public class NPC : MonoBehaviour
         HM = GetComponentInParent<HumanoidMaster>();
         NL = FindObjectOfType<NPC_Logic>();
         DNC = FindObjectOfType<DayNightController>();
-        StartCoroutine(DelayedStart());
-    }
-
-    IEnumerator DelayedStart()
-    {
-        yield return new WaitForSeconds(1f);
-        RandomTask();
     }
 
     public void Set_ActivityFlag(NPCActivityFlag set)

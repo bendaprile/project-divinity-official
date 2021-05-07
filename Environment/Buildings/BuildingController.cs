@@ -13,6 +13,7 @@ public class BuildingController : MonoBehaviour
     [SerializeField] private bool lightsAsChildren = false;
     [SerializeField] protected bool roofShadowsOnly = false;
     public bool insideBuilding = false;
+    public int currentFloor = 0;
     [SerializeField] private float camDistance = 0f;
     
     private NonDiegeticController AudioControl;
@@ -118,13 +119,55 @@ public class BuildingController : MonoBehaviour
         {
             foreach (GameObject roof in roofs)
             {
-                foreach (Transform child in roof.transform)
-                {
-                    if (child.GetComponent<MeshRenderer>())
-                    {
-                        child.GetComponent<MeshRenderer>().shadowCastingMode = turnOnRoof ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-                    }
+                foreach (MeshRenderer child in roof.GetComponentsInChildren<MeshRenderer>())
+                { 
+                    child.shadowCastingMode = turnOnRoof ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
                 }
+            }
+        }
+    }
+
+    public void IncreaseFloor(int floorNum)
+    {
+        if (currentFloor >= floorNum)
+        {
+            return;
+        }
+
+        currentFloor++;
+
+        if (!roofShadowsOnly)
+        {
+            roofs[currentFloor - 1].SetActive(true);
+        }
+        else
+        {
+            GameObject floorRoofs = roofs[currentFloor - 1];
+            foreach (MeshRenderer child in floorRoofs.GetComponentsInChildren<MeshRenderer>())
+            {
+                child.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            }
+        }
+    }
+
+    public void DecreaseFloor(int floorNum)
+    {
+        if (currentFloor < floorNum)
+        {
+            return;
+        }
+
+        currentFloor--;
+
+        if (!roofShadowsOnly)
+        {
+            roofs[currentFloor].SetActive(false);
+        }
+        else
+        {
+            foreach (MeshRenderer child in roofs[currentFloor].GetComponentsInChildren<MeshRenderer>())
+            {
+                child.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
             }
         }
     }

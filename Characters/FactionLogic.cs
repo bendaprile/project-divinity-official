@@ -6,6 +6,19 @@ public class FactionLogic : MonoBehaviour
 {
     private Transform[] Tranform_Holder = new Transform[STARTUP_DECLARATIONS.FactionCount];
     private float[][] ReputationMatrix = new float[STARTUP_DECLARATIONS.FactionCount][];
+
+    [SerializeField] private GameObject[] HostileFlags = new GameObject[STARTUP_DECLARATIONS.FactionCount];
+
+    private Zone_Flags ZF;
+
+
+
+
+    private void Start()
+    {
+        ZF = FindObjectOfType<Zone_Flags>();
+    }
+
     //Goes from 0 to 2000
     //Under 200 means they are your enemy
     //Over 1800 means they are your ally
@@ -15,16 +28,17 @@ public class FactionLogic : MonoBehaviour
         return ReputationMatrix;
     }
 
+
+
     public void Modify_Reputation(FactionsEnum FactionA, FactionsEnum FactionB, float ModifyValue)
     {
         int A = (int)FactionA;
         int B = (int)FactionB;
 
-        if(A < 5 || B < 5) //Cannot modify these
+        if(A < 5 && B < 5) //Cannot modify these
         {
             return;
         }
-
 
         if (A > B)
         {
@@ -35,6 +49,33 @@ public class FactionLogic : MonoBehaviour
         B -= A;
 
         ReputationMatrix[A][B] += ModifyValue;
+        if(ReputationMatrix[A][B] < 0)
+        {
+            ReputationMatrix[A][B] = 0;
+        }
+        else if(ReputationMatrix[A][B] > 2000)
+        {
+            ReputationMatrix[A][B] = 2000;
+        }
+
+        if (ReputationMatrix[A][B] < STARTUP_DECLARATIONS.EnemyNumber) //Set hostile
+        {
+            if (FactionA == FactionsEnum.Player)
+            {
+                if (HostileFlags[(int)FactionB])
+                {
+                    ZF.SetFlag(HostileFlags[(int)FactionB]);
+                }
+            }
+
+            if (FactionB == FactionsEnum.Player)
+            {
+                if (HostileFlags[(int)FactionA])
+                {
+                    ZF.SetFlag(HostileFlags[(int)FactionA]);
+                }
+            }
+        }
     }
 
     public bool ReturnIsEnemy(FactionsEnum Fac_caster, FactionsEnum Fac_target, CustomReputation CustomMod)
@@ -212,40 +253,48 @@ public class FactionLogic : MonoBehaviour
     {
         ReputationMatrix[(int)FactionsEnum.Neutral] = new float[STARTUP_DECLARATIONS.FactionCount]
         {
-           1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
+           1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.Player] = new float[STARTUP_DECLARATIONS.FactionCount - 1]
         {
-            2000, 0, 0, 0, 1000, 1000, 1000, 1000
+            2000, 0, 0, 0, 1000, 1000, 1000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.Rogue] = new float[STARTUP_DECLARATIONS.FactionCount - 2]
         {
-            0, 0, 0, 0, 0, 0, 0
+            0, 0, 0, 0, 0, 0, 0, 0, 0
         };
         ReputationMatrix[(int)FactionsEnum.Feral] = new float[STARTUP_DECLARATIONS.FactionCount - 3]
         {
-            2000, 0, 0, 0, 0, 0
+            2000, 0, 0, 0, 0, 0, 0, 0
         };
         ReputationMatrix[(int)FactionsEnum.AntiPlayer] = new float[STARTUP_DECLARATIONS.FactionCount - 4]
         {
-            2000, 1000, 1000, 1000, 1000
+            2000, 1000, 1000, 1000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.B] = new float[STARTUP_DECLARATIONS.FactionCount - 5]
         {
-            2000, 1000, 1000, 1000
+            2000, 1000, 1000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.Scavengers] = new float[STARTUP_DECLARATIONS.FactionCount - 6]
         {
-            2000, 1000, 1000
+            2000, 1000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.Plantation] = new float[STARTUP_DECLARATIONS.FactionCount - 7]
         {
-            2000, 1000
+            2000, 1000, 1000, 1000
         };
         ReputationMatrix[(int)FactionsEnum.MidwayCityCivilian] = new float[STARTUP_DECLARATIONS.FactionCount - 8]
         {
-            2000
+            2000, 1000, 1000
         };
+        ReputationMatrix[(int)FactionsEnum.FacelessReapers] = new float[STARTUP_DECLARATIONS.FactionCount - 9]
+        {
+            2000, 1000
+        };
+        ReputationMatrix[(int)FactionsEnum.Ascended] = new float[STARTUP_DECLARATIONS.FactionCount - 10]
+        {
+            2000
+        };  
     }
 
 }
